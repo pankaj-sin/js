@@ -1,0 +1,21 @@
+<script src="https://knockoutjs.com/downloads/knockout-3.5.1.js"> </script>
+
+<body>
+    <p>My first paragraph</p>
+    <p id="demo"></p>
+
+    <p>More Text:</p>
+    <p data-bind="text: more_text"></p>
+</body>
+
+<script>
+    console.log("Hello World")
+
+    document.getElementById("demo").innerHTML = "Hello World";
+
+    var viewModel = {
+        more_text: ko.observable("Hello, Pankaj!")
+    };
+
+    ko.applyBindings(viewModel);
+</script>

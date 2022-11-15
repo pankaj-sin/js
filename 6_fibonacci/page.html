@@ -1,0 +1,34 @@
+<script src="https://knockoutjs.com/downloads/knockout-3.5.1.js"> </script>
+
+<body>
+
+    <p>A </p>
+    <input type="text" data-bind="value: customA">
+
+    <button id="customButton" data-bind="click: fibonacci">Fibonacci</button>
+    <p id="customAnswer" data-bind="text: customAnswer"> </p>
+</body>
+
+<script type="text/javascript">
+    var viewModel = {
+        customA: ko.observable(""),
+        customAnswer: ko.observable(0),
+        fibonacci: function () {
+            last =1
+            secondLast=1
+            let rtn =[1,1];
+            for (var i = 0; i <parseInt(this.customA())-2; i++) {
+
+                rtn.push(last + secondLast)
+                last = rtn[rtn.length - 1]
+                secondLast = rtn[rtn.length - 2]
+
+        
+            }
+            this.customAnswer(rtn)
+
+        }
+    };
+
+    ko.applyBindings(viewModel);
+</script>
