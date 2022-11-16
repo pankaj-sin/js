@@ -1,0 +1,107 @@
+<script src="https://knockoutjs.com/downloads/knockout-3.5.1.js"> </script>
+
+<body>
+    <input type="text" data-bind="value: customA" id="customA">
+    <input type="text" data-bind="value: customB" id="customB">
+    <input type="text" data-bind="value: customC" id="customC">
+    
+    <button id="customButton" data-bind="click: hcf">Get HCF</button>
+    <p>Your HCF is: <span id="customAnswer" data-bind="text: customAnswer"></span></p>
+    
+</body>
+
+<script type="text/javascript">
+    function getLowestFactor(input) {
+        let rtn = 1
+        for (let i = 2; true; i++) {
+            if (input % i == 0) {
+                rtn = i
+                break
+            }
+
+        }
+        return rtn
+    }
+
+    function factorization (input) {
+            var input = parseInt(input)
+            let result = []
+            lowest_factor = -1
+            while (input != 1) {
+                lowest_factor = getLowestFactor(input)
+                
+                result.push(lowest_factor)
+                input = input / lowest_factor
+            }
+            return result
+        }
+
+    var viewModel = {
+
+        customAnswer: ko.observable(),
+        customA: ko.observable(),
+        customB: ko.observable(),
+        customC: ko.observable(),
+
+        hcf: function() {
+            if(this.customA() == 0 || this.customB() == 0 || this.customC == 0){
+                alert("Zero is an invalid value.")
+                return false
+            }
+
+            factorsA = factorization(this.customA())
+            factorsB = factorization(this.customB())
+            factorsC = factorization(this.customC())
+
+            console.log(factorsA)
+            console.log(factorsB)
+            console.log(factorsC)
+
+            factorsA.sort(function(a, b){return b-a}); // Negative: no-op. Positive: Swap a and b.
+            factorsB.sort(function(a, b){return b-a});
+            factorsC.sort(function(a, b){return b-a});
+            
+            shortestArr = []
+            if(factorsA.length <= factorsB.length && factorsB.length <= factorsC.length){
+                shortestArr = factorsA
+            }
+            else if (factorsB.length <= factorsA.length && factorsA.length <= factorsC.length){
+                shortestArr = factorsB
+            }
+            else {
+                shortestArr = factorsC
+            }
+
+            console.log(shortestArr)
+
+            resultArr = []
+            for (var i = 0; i < shortestArr.length; i++) {
+                a = shortestArr[i]
+                console.log(a)
+
+                iA = factorsA.indexOf(a)
+                iB = factorsB.indexOf(a)
+                iC = factorsC.indexOf(a)
+
+                if(iA > -1 && iB > -1 && iC > -1) {
+                    delete factorsA[iA]
+                    delete factorsB[iB]
+                    delete factorsC[iC]
+                    resultArr.push(a)
+                }
+            }
+
+            console.log(resultArr)
+
+            ans = 1
+            for (i = 0; i < resultArr.length; i++) {
+                ans *= resultArr[i]
+            }
+
+            this.customAnswer(ans)
+        }
+        
+    };
+
+    ko.applyBindings(viewModel);
+</script>
